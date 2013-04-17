@@ -29,8 +29,8 @@
 
 #include "resource_ids.auto.h"
 
-#define MY_UUID {0x73, 0x19, 0xFB, 0xB6, 0xBD, 0xA7, 0x4E, 0xA8, 0x91, 0x90, 0x30, 0xC5, 0x82, 0xF4, 0x27, 0x8F}
-PBL_APP_INFO(MY_UUID, "Big Time", "Pebble Technology", 0x5, 0x0, RESOURCE_ID_IMAGE_MENU_ICON, APP_INFO_WATCH_FACE);
+#define MY_UUID {0x78, 0x2B, 0xEA, 0x0C, 0xEA, 0x53, 0x4F, 0x55, 0xB9, 0xAA, 0xF7, 0xF5, 0x0B, 0x41, 0xC4, 0xD2}
+PBL_APP_INFO(MY_UUID, "Arcade Time", "mapps", 0x5, 0x0, RESOURCE_ID_IMAGE_MENU_ICON, APP_INFO_WATCH_FACE);
 
 Window window;
 
@@ -191,7 +191,8 @@ void handle_init(AppContextRef ctx) {
 
   window_init(&window, "Arcade Time");
   window_stack_push(&window, true);
-  window_set_background_color(&window, GColorWhite);
+  // if gColor is White, its gonna pick *w.png files  if black *b.png
+  window_set_background_color(&window, GColorBlack);
 
   resource_init_current_app(&APP_RESOURCES);
 

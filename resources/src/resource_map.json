@@ -7,12 +7,6 @@
         "defName": "IMAGE_MENU_ICON",
         "file": "images/menu_icon_arcadetime.png"
         },
-     
-    	{
-        "type": "font",
-        "defName": "FONT_ARCADEPI_20",
-        "file": "fonts/ARCADEPI.TTF"
-        },
         
         {
         "type": "png",
