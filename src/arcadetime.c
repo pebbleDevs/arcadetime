@@ -1,10 +1,4 @@
 /*
-
-   Big Time watch
-
-   A digital watch with large digits.
-
-
    A few things complicate the implementation of this watch:
 
    a) The largest size of the Nevis font which the Pebble handles
@@ -20,7 +14,6 @@
       but I figured it would still be pushing it to load them all at
       once, even if they just fit, so I've stuck with the load/unload
       approach.
-
  */
 
 #include "pebble_os.h"
@@ -29,10 +22,14 @@
 
 #include "resource_ids.auto.h"
 
+#define BOTTOM_LABEL_VALUE "PEBBLE"
+
 #define MY_UUID {0x78, 0x2B, 0xEA, 0x0C, 0xEA, 0x53, 0x4F, 0x55, 0xB9, 0xAA, 0xF7, 0xF5, 0x0B, 0x41, 0xC4, 0xD2}
 PBL_APP_INFO(MY_UUID, "Arcade Time", "mapps", 0x5, 0x0, RESOURCE_ID_IMAGE_MENU_ICON, APP_INFO_WATCH_FACE);
 
 Window window;
+
+TextLayer text_extra_layer;
 
 //
 // There's only enough memory to load about 6 of 10 required images
@@ -173,7 +170,7 @@ void display_time(PblTm *tick_time) {
   // TODO: Use `units_changed` and more intelligence to reduce
   //       redundant digit unload/load?
 // in below function call, true mean its gonna show leading zero
-  display_value(get_display_hour(tick_time->tm_hour), 0, true);
+  display_value(get_display_hour(tick_time->tm_hour), 0, false);
   display_value(tick_time->tm_min, 1, true);
 }
 
@@ -181,6 +178,9 @@ void display_time(PblTm *tick_time) {
 void handle_minute_tick(AppContextRef ctx, PebbleTickEvent *t) {
   (void)t;
   (void)ctx;
+  static char bottom_text[] = "PEBBLE";  
+// Title text on the watch NEVER Changes
+  text_layer_set_text(&text_extra_layer, bottom_text);
 
   display_time(t->tick_time);
 }
@@ -194,7 +194,16 @@ void handle_init(AppContextRef ctx) {
   // if gColor is White, its gonna pick *w.png files  if black *b.png
   window_set_background_color(&window, GColorBlack);
 
+//Resource Map initialization
   resource_init_current_app(&APP_RESOURCES);
+  
+//Extra text Layer
+  text_layer_init(&text_extra_layer, window.layer.frame);
+  text_layer_set_text_color(&text_extra_layer, GColorWhite);
+  text_layer_set_background_color(&text_extra_layer, GColorBlack);
+  layer_set_frame(&text_extra_layer.layer, GRect(25, 140, 90, 168));
+  text_layer_set_font(&text_extra_layer, fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ROBOTO_C_20)));
+  layer_add_child(&window.layer, &text_extra_layer.layer);  
 
   // Avoids a blank screen on watch start.
   PblTm tick_time;

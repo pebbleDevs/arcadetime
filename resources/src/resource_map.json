@@ -9,6 +9,12 @@
         },
         
         {
+        "type": "font",
+        "defName": "FONT_ROBOTO_C_20",
+        "file": "fonts/Roboto-Condensed.ttf"
+        },
+        
+        {
         "type": "png",
         "defName": "IMAGE_NUM_0",
         "file": "images/0b.png"
